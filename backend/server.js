@@ -14,10 +14,12 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cors())
 
-const url = process.env.URL
+const database_url = process.env.DATABASE_URL
+const adminName = process.env.ADMIN_NAME
+const adminPassword = process.env.ADMIN_PASSWORD
 
 // Database connection
-mongoose.connect(url)
+mongoose.connect(database_url)
 
 
 const Product = mongoose.model('Product', {
@@ -89,7 +91,77 @@ const User = mongoose.model('User', {
     }
 })
 
+const Admin = mongoose.model('Admin', {
+    adminName: {
+        type: String
+    }, 
+    password: {
+        type: String
+    }
+})
+
 // API Creation
+
+app.post('/adminadd', async (req, res) => {
+    let check = await Admin.findOne({ adminName: adminName })
+    if (!check) {
+        const admin = new Admin({
+            adminName: adminName,
+            password: adminPassword,
+        })
+    
+        await admin.save()
+    
+        const data = {
+            admin: {
+                id: admin.id
+            }
+        }
+    
+        const token = jwt.sign(data, 'secret_ecom_admin')
+        res.json({
+            success: true,
+            token
+        })
+    } else {
+        res.status(400).json({
+            success: false,
+            error: "Can't add more admins."
+        })
+    }
+
+} )
+
+app.post('/adminlogin', async (req,res) => {
+    let admin = await Admin.findOne({ adminName: req.body.adminName })
+    if (admin) {
+        const passCompare = req.body.password === admin.password
+        if (passCompare) {
+            const data = {
+                admin: {
+                    id: admin.id
+                }
+            }
+            const token = jwt.sign(data, 'secret_ecom_admin')
+            res.json({
+                success: true,
+                token
+            })
+        } else {
+            res.status(401).json({
+                status: 401,
+                success: false,
+                error: 'Wrong credentials.'
+            })
+        }
+    } else {
+        res.status(401).json({
+            status: 401,
+            success: false,
+            error: 'Wrong credentials.'
+        })
+    }
+})
 
 app.get('/', (req, res) => {
     res.send('<center style="padding-top:20px; font-size: 3rem"><h1>Hello</h1><center>')
@@ -134,7 +206,6 @@ app.post('/addproduct', async (req, res) => {
         })
         console.log(product)
         await product.save()
-        // console.log('Saved')
         res.json({
             success: true,
             name: req.body.name
@@ -147,7 +218,6 @@ app.post('/addproduct', async (req, res) => {
 app.delete('/removeproduct', async (req, res) => {
     try {
         await Product.findOneAndDelete({ id: req.body.id })
-        // console.log('Removed')
         res.json({
             success: true,
             name: req.body.name
@@ -160,7 +230,6 @@ app.delete('/removeproduct', async (req, res) => {
 app.get('/allproducts', async (req, res) => {
     try {
         const products = await Product.find({})
-        // console.log('All products fetched')
         res.send(products)
     } catch (err) {
         console.error(err)
@@ -176,16 +245,10 @@ app.post('/signup', async (req, res) => {
         })
     }
 
-    // let cart = {}
-    // for ( i = 0; i < 300; i++) {
-    //     cart[i] = 0
-    // }
-
     const user = new User({
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        // cartData: cart
     })
 
     await user.save()
@@ -219,13 +282,13 @@ app.post('/login', async (req, res) => {
                 token
             })
         } else {
-            res.status(404).json({
+            res.status(401).json({
                 success: false,
                 error: 'Wrong password'
             })
         }
     } else {
-        res.status(404).json({
+        res.status(401).json({
             success: false,
             error: 'Wrong email id'
         })

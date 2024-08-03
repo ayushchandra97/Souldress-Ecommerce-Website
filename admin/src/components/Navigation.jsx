@@ -6,7 +6,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas'
 
 
 // eslint-disable-next-line react/prop-types
-export default function Navigation({ setShowAllProducts }) {
+export default function Navigation({ loginStatus, setShowAllProducts }) {
   const [show, setShow] = useState(false)
 
   const handleClose = () => setShow(false)
@@ -23,14 +23,14 @@ export default function Navigation({ setShowAllProducts }) {
     <>
       <Navbar expand="false" aria-label="offcanvas navbar" className='bg-nav-footer'>
         <Container className='flex-nowrap justify-content-start gap-4'>
-          <Navbar.Toggle onClick={handleShow} aria-controls="offcanvasNavbar" />
-          <Container class="mx-auto text-center">
+          {loginStatus ? <Navbar.Toggle onClick={handleShow} aria-controls="offcanvasNavbar" /> : <></>}
+          <Container className="mx-auto text-center">
             <Navbar.Brand><img className='nav-img' src="/src/assets/inkpx-word-art.png" /></Navbar.Brand>
           </Container>
         </Container>
       </Navbar>
 
-      <Offcanvas show={show} onHide={handleClose} id="offcanvasNavbar">
+      {loginStatus ? (<Offcanvas show={show} onHide={handleClose} id="offcanvasNavbar">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Menu</Offcanvas.Title>
         </Offcanvas.Header>
@@ -38,7 +38,7 @@ export default function Navigation({ setShowAllProducts }) {
           <Button onClick={() => buttonClickHandler(false)} className='btn-theme'>Add Product</Button>
           <Button onClick={() => buttonClickHandler(true)} className='btn-theme'>All Products</Button>
         </Offcanvas.Body>
-      </Offcanvas>
+      </Offcanvas>) : <></> }
     </>
   )
 }

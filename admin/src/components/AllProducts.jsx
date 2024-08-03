@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import { useErrorBoundary } from 'react-error-boundary'
 
+// eslint-disable-next-line react/prop-types
 export default function AllProducts() {
 
   const { showBoundary } = useErrorBoundary()
@@ -20,7 +21,7 @@ export default function AllProducts() {
   }
 
   useEffect(() => {
-    fetchInfo()
+      fetchInfo()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allProducts])
 

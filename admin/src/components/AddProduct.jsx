@@ -65,7 +65,10 @@ export default function AddProduct() {
         body: JSON.stringify(product)
       }).then((res) => res.json())
         .then((data) => {
-          data.success ? alert('Product Added') : alert('Failed')
+          if (data.success) {
+            alert("Product added successfully")
+            location.reload()
+          }
         })
         .catch(() => showBoundary(new Error('Something went wrong')))
     }

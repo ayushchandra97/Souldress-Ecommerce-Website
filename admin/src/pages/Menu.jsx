@@ -1,12 +1,10 @@
 import Container from 'react-bootstrap/Container'
-import AddProduct from './AddProduct'
-import AllProducts from './AllProducts'
+import AddProduct from '../components/AddProduct'
+import AllProducts from '../components/AllProducts'
 
 
 // eslint-disable-next-line react/prop-types
 export default function Menu({ showAllProducts }) {
-
-    // const [showAllProducts, setShowAllProducts] = useState(true)
 
     return (
         <>
