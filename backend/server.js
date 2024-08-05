@@ -1,4 +1,4 @@
-const port = 3000
+const port = process.env.PORT || 3000
 const express = require('express')
 const app = express()
 
@@ -8,7 +8,11 @@ const multer = require('multer')
 const cors = require('cors')
 const path = require('path')
 const { type } = require('os')
-const env = require('dotenv').config()
+const dotenv = require('dotenv')
+
+if (process.env.NODE_ENV !== 'production') {
+    dotenv.config();
+  }
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -22,7 +26,7 @@ const adminPassword = process.env.ADMIN_PASSWORD
 mongoose.connect(database_url)
 
 
-const Product = mongoose.model('Product', {
+const Product = mongoose.models.Product || mongoose.model('Product', {
     id: {
         type: Number,
         required: true
@@ -73,7 +77,7 @@ const cartSchema = new mongoose.Schema({
     }
 })
 
-const User = mongoose.model('User', {
+const User =  mongoose.models.User || mongoose.model('User', {
     name: {
         type: String
     },
@@ -91,7 +95,7 @@ const User = mongoose.model('User', {
     }
 })
 
-const Admin = mongoose.model('Admin', {
+const Admin = mongoose.models.Admin || mongoose.model('Admin', {
     adminName: {
         type: String
     }, 
