@@ -27,11 +27,11 @@ export default function Item(props) {
         <Card.Title className="mb-4 d-flex justify-content-center">{props.name}</Card.Title>
         {props.category ? <Card.Text className="mb-2 d-flex justify-content-center">{props.category}</Card.Text> : <></>}
         <Card.Text className="mb-3 d-flex justify-content-center">
-          <Image src="src/assets/star-fill.svg" />
-          <Image src="src/assets/star-fill.svg" />
-          <Image src="src/assets/star-fill.svg" />
-          <Image src="src/assets/star-fill.svg" />
-          <Image src="src/assets/star-half.svg" />
+          <Image src="/assets/star-fill.svg" />
+          <Image src="/assets/star-fill.svg" />
+          <Image src="/assets/star-fill.svg" />
+          <Image src="/assets/star-fill.svg" />
+          <Image src="/assets/star-half.svg" />
         </Card.Text>
         <Card.Text className="mb-2 d-flex justify-content-center"><s>₹{props.old_price}</s></Card.Text>
         <Card.Text className="mb-2 d-flex justify-content-center fs-4">₹{props.new_price}</Card.Text>

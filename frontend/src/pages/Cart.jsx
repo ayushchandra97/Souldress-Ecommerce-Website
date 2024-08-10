@@ -40,16 +40,16 @@ export default function Cart() {
                     <Col fluid lg={3} md={3} sm={8} xs={9} className="d-flex">
                       <Container fluid className='d-flex cart-btns-container'>
                         <Button onClick={() => addToCart(item.productId, -1)} className=' cart-quantity-btn' type="button">
-                          <Image src="/src/assets/minus.svg" />
+                          <Image src="/assets/minus.svg" />
                         </Button>
                         <Form.Control className='text-center  input-control' type="text" value={item.quantity} disabled />
                         <Button onClick={() => addToCart(item.productId, 1)} className=' cart-quantity-btn' type="button">
-                          <Image src="/src/assets/plus.svg" />
+                          <Image src="/assets/plus.svg" />
                         </Button>
                       </Container>
                     </Col>
                     <Col fluid lg={1} md={1} sm={4} xs={3}>
-                      <Button className='cross-btn' onClick={() => removeFromCart(item.productId)} to="#"><Image src="/src/assets/cart_cross_icon.png" /></Button>
+                      <Button className='cross-btn' onClick={() => removeFromCart(item.productId)} to="#"><Image src="/assets/cart_cross_icon.png" /></Button>
                     </Col>
                   </Row>
                 </Col>

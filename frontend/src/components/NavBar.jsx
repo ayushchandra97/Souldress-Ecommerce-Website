@@ -21,7 +21,7 @@ export default function NavBar() {
     return (
         <Navbar className='bg-nav-footer' expand="lg">
             <Container>
-                <Navbar.Brand onClick={() => setLink('')} as={Link} to="/"><Image src="src/assets/inkpx-word-art.png" style={{ width: '240px' }} /></Navbar.Brand>
+                <Navbar.Brand onClick={() => setLink('')} as={Link} to="/"><Image src="/assets/inkpx-word-art.png" style={{ width: '240px' }} /></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="m-auto">
@@ -42,7 +42,7 @@ export default function NavBar() {
                                     </Link>}
                             </Col>
                             <Col className='my-lg-0 my-md-2 my-sm-3' xs="auto">
-                                <Button as={Link} to="/cart" className='d-flex btn-theme btn-cart'><Image src="src/assets/cart-shopping-solid.svg" /><Container>Cart</Container></Button>
+                                <Button as={Link} to="/cart" className='d-flex btn-theme btn-cart'><Image src="/assets/cart-shopping-solid.svg" /><Container>Cart</Container></Button>
                             </Col>
                         </Row>
                     </div>

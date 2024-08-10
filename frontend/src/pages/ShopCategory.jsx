@@ -6,9 +6,9 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Image from "react-bootstrap/Image"
 import PropTypes from "prop-types"
-import banner_kids from "/src/assets/banner_kids.png"
-import banner_mens from "/src/assets/banner_mens.png"
-import banner_women from "/src/assets/banner_women.png"
+import banner_kids from "/assets/banner_kids.png"
+import banner_mens from "/assets/banner_mens.png"
+import banner_women from "/assets/banner_women.png"
 
 ShopCategory.propTypes = {
     category: PropTypes.string

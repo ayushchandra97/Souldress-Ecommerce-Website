@@ -10,12 +10,12 @@ export default function Hero() {
                 <Container className="px-sm-2 mx-sm-5 fs-1 text-center text-hero">
                     <div>
                         Get great quality at cheap price. Only on
-                        <Image className="bg-hero-logo" src="src/assets/inkpx-word-art.png" />
+                        <Image className="bg-hero-logo" src="/assets/inkpx-word-art.png" />
                     </div>
                     <Button as={Link} to="/allproducts" className="fs-5 btn-banner">Full Catalogue</Button>
                 </Container>
                 <Container className="p-0 m-0 text-center d-inline-block">
-                    <Image className="hero-img" src="/src/assets/hero_image.png" />
+                    <Image className="hero-img" src="/assets/hero_image.png" />
                 </Container>
             </Container>
         </>
