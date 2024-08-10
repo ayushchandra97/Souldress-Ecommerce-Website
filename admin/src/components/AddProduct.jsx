@@ -52,8 +52,6 @@ export default function AddProduct() {
   
       if (responseData.success) {
         product.image = responseData.image_url
-      } else {
-        alert("Upload failed")
       }
   
       await fetch('http://localhost:3000/addproduct', {
