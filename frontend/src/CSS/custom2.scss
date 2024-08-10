@@ -25,6 +25,7 @@ body {
 
 .active-link {
     border-bottom: 3px solid #df07d0;
+    margin-bottom: 5px;
 }
 
 .bg-nav-footer {
@@ -45,6 +46,10 @@ body {
 
 .text-hero {
     color: $banner-color;
+}
+
+.banner-category {
+    width: 100dvw;
 }
 
 .btn-banner {

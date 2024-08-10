@@ -22,7 +22,7 @@ function ShopContextProvider(props) {
     
     const fetchProducts = async () => {
       try {
-        const res = await fetch('http://localhost:3000/allproducts')
+        const res = await fetch('https://souldress-ecommerce-website.vercel.app/allproducts')
         if (!res.ok) {
           const error = new Error(`${res.status} - ${res.statusText}`)
           error.status = res.status
@@ -40,7 +40,7 @@ function ShopContextProvider(props) {
     const addToCart = async (productId, quantity) => {
       if (localStorage.getItem('auth-token')) {
         try {
-            const res = await fetch('http://localhost:3000/addtocart', {
+            const res = await fetch('https://souldress-ecommerce-website.vercel.app/addtocart', {
               method: 'POST',
               headers: {
                 Accept: 'application/form-data',
@@ -71,7 +71,7 @@ function ShopContextProvider(props) {
     const removeFromCart = async (productId) => {
       if (localStorage.getItem('auth-token')) {
         try {
-            const res = await fetch('http://localhost:3000/removefromcart', {
+            const res = await fetch('https://souldress-ecommerce-website.vercel.app/removefromcart', {
               method: 'POST',
               headers: {
                 Accept: 'application/form-data',
@@ -99,7 +99,7 @@ function ShopContextProvider(props) {
     const displayCart = async () => {
       if (localStorage.getItem('auth-token')) {
         try {
-          const res = await fetch('http://localhost:3000/cartitems', {
+          const res = await fetch('https://souldress-ecommerce-website.vercel.app/cartitems', {
             method: 'GET',
             headers: {
               Accept: 'application/json',
@@ -158,7 +158,7 @@ function ShopContextProvider(props) {
   
     async function login() {
       let responseData
-      await fetch('http://localhost:3000/login', {
+      await fetch('https://souldress-ecommerce-website.vercel.app/login', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -182,7 +182,7 @@ function ShopContextProvider(props) {
     async function signup() {
       console.log('signup', formData)
       let responseData
-      await fetch('http://localhost:3000/signup', {
+      await fetch('https://souldress-ecommerce-website.vercel.app/signup', {
         method: 'POST',
         headers: {
           Accept: 'application/json',

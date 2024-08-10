@@ -20,7 +20,7 @@ export default function ShopCategory(props) {
 
     return (
         <main className="mt-4 flex-body">
-            <Image src={props.category === "Mens" ? banner_mens : props.category === "Womens" ? banner_women : banner_kids}></Image>
+            <Image className="banner-category" src={props.category === "Mens" ? banner_mens : props.category === "Womens" ? banner_women : banner_kids}></Image>
             <Container className="my-4">
                 <h1 className="text-center text-primary">{props.category} Clothing</h1>
                 <Row>
