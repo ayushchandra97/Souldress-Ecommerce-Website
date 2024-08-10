@@ -23,7 +23,7 @@ export default function AllProducts() {
   useEffect(() => {
       fetchInfo()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allProducts])
+  }, [])
 
   const removeProduct = async(id) => {
     fetch('https://souldress-ecommerce-website.vercel.app/removeproduct', {

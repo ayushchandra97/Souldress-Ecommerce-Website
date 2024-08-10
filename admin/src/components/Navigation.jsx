@@ -25,7 +25,7 @@ export default function Navigation({ loginStatus, setShowAllProducts }) {
         <Container className='flex-nowrap justify-content-start gap-4'>
           {loginStatus ? <Navbar.Toggle onClick={handleShow} aria-controls="offcanvasNavbar" /> : <></>}
           <Container className="mx-auto text-center">
-            <Navbar.Brand><img className='nav-img' src="/src/assets/inkpx-word-art.png" /></Navbar.Brand>
+            <Navbar.Brand><img className='nav-img' src="../assets/inkpx-word-art.png" /></Navbar.Brand>
           </Container>
         </Container>
       </Navbar>
