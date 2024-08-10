@@ -65,7 +65,7 @@ export default function AllProducts() {
                       <p className='fs-5 text-nowrap'>Offer price: <span className='text-primary'>₹{product.new_price}</span></p>
                     </Col>
                     <Col lg={1} md={1} sm={12} xs={12}>
-                      <Button className='cross-btn' onClick={() => removeProduct(product.id)}><Image src="/src/assets/cart_cross_icon.png" /></Button>
+                      <Button className='cross-btn' onClick={() => removeProduct(product.id)}><Image src="/assets/cart_cross_icon.png" /></Button>
                     </Col>
                   </Row>
                 </Col>

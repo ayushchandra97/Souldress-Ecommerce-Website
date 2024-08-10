@@ -2,7 +2,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Image from 'react-bootstrap/Image'
-import upload_img from '../assets/upload_area.svg'
+import upload_img from '/assets/upload_area.svg'
 import { useState } from 'react'
 import { useErrorBoundary } from 'react-error-boundary'
 
