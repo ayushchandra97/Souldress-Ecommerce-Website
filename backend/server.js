@@ -8,6 +8,14 @@ const multer = require('multer')
 const cors = require('cors')
 const dotenv = require('dotenv')
 
+const corsOptions = {
+    origin: ['https://souldress-ecommerce-website-admin.vercel.app'], 
+    methods: ['GET', 'POST', 'DELETE'],
+    credentials: true
+  }
+
+app.use(cors(corsOptions))
+
 const Admin = require('./models/Admin')
 const Product = require('./models/Product')
 const User = require('./models/User')
@@ -19,13 +27,6 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
-const corsOptions = {
-    origin: ['https://souldress-ecommerce-website-admin.vercel.app/'], 
-    methods: ['GET', 'POST', 'DELETE'],
-    credentials: true
-  }
-
-app.use(cors(corsOptions))
 
 const database_url = process.env.DATABASE_URL
 const adminName = process.env.ADMIN_NAME
