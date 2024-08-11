@@ -19,7 +19,14 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
-app.use(cors())
+const corsOptions = {
+    origin: 'https://souldress-ecommerce-website-admin.vercel.app', 
+    methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
+    credentials: true, 
+    optionsSuccessStatus: 204 
+  }
+
+app.use(cors(corsOptions))
 
 const database_url = process.env.DATABASE_URL
 const adminName = process.env.ADMIN_NAME
