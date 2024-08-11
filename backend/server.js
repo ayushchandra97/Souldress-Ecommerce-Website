@@ -20,10 +20,9 @@ app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 const corsOptions = {
-    origin: 'https://souldress-ecommerce-website-admin.vercel.app', 
-    methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
-    credentials: true, 
-    optionsSuccessStatus: 204 
+    origin: ['https://souldress-ecommerce-website-admin.vercel.app/'], 
+    methods: ['GET', 'POST', 'DELETE'],
+    credentials: true
   }
 
 app.use(cors(corsOptions))
