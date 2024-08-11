@@ -41,7 +41,7 @@ export default function AddProduct() {
       let formData = new FormData()
       formData.append('product', image)
   
-      await fetch('https://souldress-ecommerce-website.vercel.app//upload', {
+      await fetch('https://souldress-ecommerce-website.vercel.app/upload', {
         method: 'POST',
         headers: {
           Accept: 'application/json'
@@ -55,7 +55,7 @@ export default function AddProduct() {
         product.image = responseData.image_url
       }
   
-      await fetch('https://souldress-ecommerce-website.vercel.app//addproduct', {
+      await fetch('https://souldress-ecommerce-website.vercel.app/addproduct', {
         method: 'POST',
         headers: {
           Accept: 'application/json',

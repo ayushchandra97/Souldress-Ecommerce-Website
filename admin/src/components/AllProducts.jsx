@@ -14,7 +14,7 @@ export default function AllProducts() {
   const [allProducts, setAllProducts] = useState([])
 
   const fetchInfo = async () => {
-    fetch('https://souldress-ecommerce-website.vercel.app//allproducts')
+    fetch('https://souldress-ecommerce-website.vercel.app/allproducts')
       .then((res) => res.json())
       .then((data) => setAllProducts(data))
       .catch(() => showBoundary(new Error('Something went wrong')))
@@ -26,7 +26,7 @@ export default function AllProducts() {
   }, [])
 
   const removeProduct = async(id) => {
-    fetch('https://souldress-ecommerce-website.vercel.app//removeproduct', {
+    fetch('https://souldress-ecommerce-website.vercel.app/removeproduct', {
       method: 'DELETE',
       headers: {
         Accept: 'application/json',

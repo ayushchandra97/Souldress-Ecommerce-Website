@@ -25,7 +25,7 @@ export default function Login( { setLoginStatus } ) {
     async function login() {
         try {
             let responseData
-            const res = await fetch('https://souldress-ecommerce-website.vercel.app//adminlogin', {
+            const res = await fetch('https://souldress-ecommerce-website.vercel.app/adminlogin', {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
