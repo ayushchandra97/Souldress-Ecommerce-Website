@@ -8,8 +8,19 @@ const multer = require('multer')
 const cors = require('cors')
 const dotenv = require('dotenv')
 
+const allowedOrigins = [
+    'https://souldress-ecommerce-website-admin.vercel.app',
+    'https://souldress-ecommerce-website-frontend.vercel.app'
+]
+
 const corsOptions = {
-    origin: 'https://souldress-ecommerce-website-admin.vercel.app', 
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }, 
     methods: ['GET', 'POST', 'DELETE'],
     credentials: true
   }
