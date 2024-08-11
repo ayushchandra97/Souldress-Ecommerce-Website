@@ -9,12 +9,13 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 
 const corsOptions = {
-    origin: ['https://souldress-ecommerce-website-admin.vercel.app'], 
+    origin: 'https://souldress-ecommerce-website-admin.vercel.app', 
     methods: ['GET', 'POST', 'DELETE'],
     credentials: true
   }
 
 app.use(cors(corsOptions))
+app.options('*', cors(corsOptions))
 
 const Admin = require('./models/Admin')
 const Product = require('./models/Product')
