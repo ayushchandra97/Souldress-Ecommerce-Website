@@ -32,15 +32,16 @@ export default function AddProduct() {
     const changeHandler = (e) => {
       setProductDetails({ ...productDetails, [e.target.name]: e.target.value })
     }
-  
+    
     const addProduct = async (e) => {
       e.preventDefault()
+
       let responseData
       let product = productDetails
       let formData = new FormData()
       formData.append('product', image)
   
-      await fetch('https://souldress-ecommerce-website.vercel.app/upload', {
+      await fetch('http://localhost:3000/upload', {
         method: 'POST',
         headers: {
           Accept: 'application/json'
@@ -54,7 +55,7 @@ export default function AddProduct() {
         product.image = responseData.image_url
       }
   
-      await fetch('https://souldress-ecommerce-website.vercel.app/addproduct', {
+      await fetch('http://localhost:3000/addproduct', {
         method: 'POST',
         headers: {
           Accept: 'application/json',

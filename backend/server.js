@@ -6,19 +6,27 @@ const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const multer = require('multer')
 const cors = require('cors')
-const path = require('path')
-const { type } = require('os')
 const dotenv = require('dotenv')
-const { S3Client, PutObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3')
-const multerS3 = require('multer-s3')
+
+const Admin = require('./models/Admin')
+const Product = require('./models/Product')
+const User = require('./models/User')
 
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config();
   }
 
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use(cors())
+app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ limit: '50mb', extended: true }))
+
+const corsOptions = {
+    origin: 'http://localhost:5173', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, 
+    optionsSuccessStatus: 204 
+  }
+
+app.use(cors(corsOptions))
 
 const database_url = process.env.DATABASE_URL
 const adminName = process.env.ADMIN_NAME
@@ -28,86 +36,20 @@ const adminPassword = process.env.ADMIN_PASSWORD
 mongoose.connect(database_url)
 
 
-const Product = mongoose.models.Product || mongoose.model('Product', {
-    id: {
-        type: Number,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    image: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: String,
-        required: true
-    },
-    new_price: {
-        type: Number,
-        required: true
-    },
-    old_price: {
-        type: Number,
-        required: true
-    },
-    date: {
-        type: Date,
-        default: Date.now
-    },
-    available: {
-        type: Boolean,
-        default: true
-    }
-})
+// Multer storage and base64 conversion
 
-const cartSchema = new mongoose.Schema({
-    productId: {
-        type: Number,
-        required: true
-    },
-    quantity: {
-        type: Number,
-        required: true,
-        default: 1
-    },
-    price: {
-        type: Number,
-        required: true
-    }
-})
+const encodeImageToBase64 = (buffer, mimetype) => {
+    return `data:${mimetype};base64,${buffer.toString('base64')}`
+}
 
-const User =  mongoose.models.User || mongoose.model('User', {
-    name: {
-        type: String
-    },
-    email: {
-        type: String,
-        unique: true
-    },
-    password: {
-        type: String
-    },
-    cart: [cartSchema],
-    date: {
-        type: Date,
-        default: Date.now
-    }
-})
+const storage = multer.memoryStorage()
 
-const Admin = mongoose.models.Admin || mongoose.model('Admin', {
-    adminName: {
-        type: String
-    }, 
-    password: {
-        type: String
-    }
-})
+const upload = multer({ 
+    storage: storage,
+    limits: { fileSize: 10 * 1024 * 1024 }
+  })
 
 // API Creation
-
 app.post('/adminadd', async (req, res) => {
     let check = await Admin.findOne({ adminName: adminName })
     if (!check) {
@@ -173,62 +115,44 @@ app.get('/', (req, res) => {
     res.send('<center style="padding-top:20px; font-size: 3rem"><h1>Hello</h1><center>')
 })
 
-const s3 = new S3Client({
-    region: process.env.AWS_REGION,
-    credentials: {
-        accessKeyId: process.env.MY_AWS_ACCESS_KEY,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    },
-})
-const myBucket = process.env.AWS_BUCKET_NAME
-
-const storage = multerS3({
-    s3: s3,
-    bucket: myBucket,
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    key: (req, file, cb) => {
-        cb(null,`${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
-    }
-})
-
-const upload = multer({ storage: storage })
-
 app.post('/upload', upload.single('product'), (req, res) => {
+    const imageBase64 = encodeImageToBase64(req.file.buffer, req.file.mimetype)
     res.json({
-        success: 1,
-        image_url: req.file.location
+        success: true,
+        image_url: imageBase64,
     })
 })
 
 app.post('/addproduct', async (req, res) => {
-    const products = await Product.find({})
-    let id
-    if (products.length > 0) {
-        let last_product_array = products.slice(-1)
-        let last_product = last_product_array[0]
-        id = last_product.id + 1
-    } else {
-        id = 1
-    }
-    try {
-        const product = new Product({
-            id: id,
-            name: req.body.name,
-            image: req.body.image,
-            category: req.body.category,
-            new_price: req.body.new_price,
-            old_price: req.body.old_price
-        })
-        console.log(product)
-        await product.save()
-        res.json({
-            success: true,
-            name: req.body.name
-        })
-    } catch (err) {
-        console.error(err)
-    }
-})
+    
+        const products = await Product.find({})
+        let id
+        if (products.length > 0) {
+            let last_product_array = products.slice(-1)
+            let last_product = last_product_array[0]
+            id = last_product.id + 1
+        } else {
+            id = 1
+        }
+        try {
+            const product = new Product({
+                id: id,
+                name: req.body.name,
+                image: req.body.image,
+                category: req.body.category,
+                new_price: req.body.new_price,
+                old_price: req.body.old_price
+            })
+            console.log(product)
+            await product.save()
+            res.json({
+                success: true,
+                name: req.body.name
+            })
+        } catch (err) {
+            console.error(err)
+        }
+    })
 
 app.delete('/removeproduct', async (req, res) => {
     try {
@@ -237,19 +161,6 @@ app.delete('/removeproduct', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Product not found' })
         }
 
-        const imageUrl = product.image
-
-        if (imageUrl) {
-            const key = imageUrl.split('/').pop()
-
-            const deleteParams = {
-                Bucket: myBucket,
-                Key: key,
-            }
-
-            const command = new DeleteObjectCommand(deleteParams)
-            await s3.send(command)
-        }
         res.json({
             success: true,
             name: req.body.name
@@ -446,5 +357,5 @@ app.get('/cartitems', fetchUser, async (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log('Server running on port 3000')
+    console.log(`Server running on port ${port}`)
 })
