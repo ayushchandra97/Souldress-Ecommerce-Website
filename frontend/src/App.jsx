@@ -1,75 +1,72 @@
-import NavBar from './components/NavBar'
-import Home from './pages/Home'
-import Product from './pages/Product'
-import Cart from './pages/Cart'
+import NavBar from "./components/NavBar"
+import Home from "./pages/Home"
+import Product from "./pages/Product"
+import Cart from "./pages/Cart"
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom"
-import LoginSignUp from './pages/LoginSignUp'
-import ShopContextProvider from './context/ShopContext'
-import ShopCategory from './pages/ShopCategory'
+import LoginSignUp from "./pages/LoginSignUp"
+import ShopContextProvider from "./context/ShopContext"
+import ShopCategory from "./pages/ShopCategory"
 import Footer from "./components/Footer"
-import './CSS/custom2.css'
-import AllProducts from './pages/AllProducts'
-import { ErrorBoundary } from 'react-error-boundary'
-import FallbackUI from './components/FallbackUI'
-import NotFound from './components/NotFound'
+import "./CSS/custom2.css"
+import AllProducts from "./pages/AllProducts"
+import { ErrorBoundary } from "react-error-boundary"
+import FallbackUI from "./components/FallbackUI"
+import NotFound from "./components/NotFound"
 
 function App() {
-
   const router = createBrowserRouter([
     {
       element: (
-        <>
+        <ShopContextProvider>
           <NavBar />
           <Outlet />
           <Footer />
-        </>
+        </ShopContextProvider>
       ),
       children: [
         {
-          path: '/',
-          element: <Home />
+          path: "/",
+          element: <Home />,
         },
         {
-          path: '/allproducts',
-          element: <AllProducts />
+          path: "/allproducts",
+          element: <AllProducts />,
         },
         {
-          path: '/mens',
-          element: <ShopCategory category="Mens" />
+          path: "/mens",
+          element: <ShopCategory category="Mens" />,
         },
         {
-          path: '/womens',
-          element: <ShopCategory category="Womens" />
+          path: "/womens",
+          element: <ShopCategory category="Womens" />,
         },
         {
-          path: '/kids',
-          element: <ShopCategory category="Kids" />
+          path: "/kids",
+          element: <ShopCategory category="Kids" />,
         },
         {
-          path: '/login',
-          element: <LoginSignUp />
+          path: "/login",
+          element: <LoginSignUp />,
         },
         {
-          path: '/cart',
-          element: <Cart />
+          path: "/cart",
+          element: <Cart />,
         },
         {
-          path: '/product/:productId',
-          element: <Product />
-        }
-      ]
+          path: "/product/:productId",
+          element: <Product />,
+        },
+      ],
     },
     {
-      path: '*',
-      element: <NotFound />
-    }
+      path: "*",
+      element: <NotFound />,
+    },
   ])
 
   return (
     <ErrorBoundary FallbackComponent={FallbackUI}>
-      <ShopContextProvider>
-        <RouterProvider router={router} />
-      </ShopContextProvider>
+      <RouterProvider router={router} />
     </ErrorBoundary>
   )
 }

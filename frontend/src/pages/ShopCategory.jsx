@@ -9,35 +9,61 @@ import PropTypes from "prop-types"
 import banner_kids from "/assets/banner_kids.png"
 import banner_mens from "/assets/banner_mens.png"
 import banner_women from "/assets/banner_women.png"
+import loadingIcon from "/assets/Loading_icon.gif"
 
 ShopCategory.propTypes = {
-    category: PropTypes.string
+  category: PropTypes.string,
 }
 
 export default function ShopCategory(props) {
+  const { allProducts } = useContext(ShopContext)
 
-    const { allProducts } = useContext(ShopContext)
-
-    return (
-        <main className="mt-4 flex-body">
-            <Image className="banner-category" src={props.category === "Mens" ? banner_mens : props.category === "Womens" ? banner_women : banner_kids}></Image>
-            <Container className="my-4">
-                <h1 className="text-center text-primary">{props.category} Clothing</h1>
-                <Row>
-                    {allProducts.map((product, index) => {
-                        if (props.category === product.category) {
-                            return (
-                                <Col sm={12} md={6} lg={4} xl={3} key={index}>
-                                    <Item id={product.id} name={product.name} old_price={product.old_price} new_price={product.new_price} image={product.image} />
-                                </Col>
-                            )
-                        } else {
-                            return null
-                        }
-                    })}
-                </Row>
-            </Container>
-        </main>
-
-    )
+  return (
+    <main className="mt-4 flex-body">
+      <Image
+        className="banner-category"
+        src={
+          props.category === "Mens"
+            ? banner_mens
+            : props.category === "Womens"
+            ? banner_women
+            : banner_kids
+        }
+      ></Image>
+      <Container className="my-4">
+        <h1 className="text-center text-primary">{props.category} Clothing</h1>
+        <Row>
+          {allProducts.length === 0 ? (
+            <Col className="d-flex justify-content-center">
+              <Image
+                width={180}
+                height={130}
+                className="m-auto"
+                src={loadingIcon}
+              ></Image>
+            </Col>
+          ) : (
+            <></>
+          )}
+          {allProducts.map((product, index) => {
+            if (props.category === product.category) {
+              return (
+                <Col sm={12} md={6} lg={4} xl={3} key={index}>
+                  <Item
+                    id={product.id}
+                    name={product.name}
+                    old_price={product.old_price}
+                    new_price={product.new_price}
+                    image={product.image}
+                  />
+                </Col>
+              )
+            } else {
+              return null
+            }
+          })}
+        </Row>
+      </Container>
+    </main>
+  )
 }
